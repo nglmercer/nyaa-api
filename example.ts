@@ -1,4 +1,4 @@
-import Nyaa from './src';
+import { Nyaa } from './src';
 
 async function main() {
     const nyaa = new Nyaa({

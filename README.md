@@ -1,28 +1,28 @@
-<h1 align="center">Nyaa-si</h1>
+<h1 align="center">nyaa-api</h1>
 
 This is an unofficial API for nyaa - https://nyaa.si or https://nyaa.land or whatever domain you want to use. This allows you to search for torrents by name, category, or even user. Use at your own risk.
 
 <div align="center">
 
-[![npm](https://img.shields.io/npm/v/nyaa-si?style=flat-square)](https://www.npmjs.com/package/nyaa-si)
-[![npm](https://img.shields.io/npm/dt/nyaa-si?style=flat-square)](https://www.npmjs.com/package/nyaa-si)
-![NPM](https://img.shields.io/npm/l/nyaa-si)
+[![npm](https://img.shields.io/npm/v/nyaa-api?style=flat-square)](https://www.npmjs.com/package/nyaa-api)
+[![npm](https://img.shields.io/npm/dt/nyaa-api?style=flat-square)](https://www.npmjs.com/package/nyaa-api)
+![NPM](https://img.shields.io/npm/l/nyaa-api)
 
 </div>
 
 ## Install
 
 ```bash
-npm install --save nyaa-si
-yarn add nyaa-si
-pnpm add nyaa-si
-bun add nyaa-si
+npm install --save nyaa-api
+yarn add nyaa-api
+pnpm add nyaa-api
+bun add nyaa-api
 ```
 
 ## Usage
 
 ```js
-import Nyaa from 'nyaa-si';
+import { Nyaa } from 'nyaa-api';
 
 const nyaa = new Nyaa({
     baseUrl: 'https://nyaa.si',
@@ -39,8 +39,6 @@ const result = await nyaa.search('One Piece', {
 
 console.log(result.data);
 
-// Or run the example:
-// bun run example.ts
 /**
  * {
  *     data: [{ id: 1234567, name: 'One Piece', ... }],
@@ -57,6 +55,19 @@ console.log(result.data);
 
 ## API
 
+### `new Nyaa(options)`
+
+Create a new Nyaa instance.
+
+#### `options`
+
+```js
+{
+    baseUrl: 'https://nyaa.si', // The base URL of the nyaa instance
+    mode: 'html', // 'html' or 'rss'
+}
+```
+
 ### `search(query, options)`
 
 Search for torrents.
@@ -68,10 +79,6 @@ Type: `string`
 The search query.
 
 #### `options`
-
-Type: `object`
-
-The search options.
 
 ```jsonc
 {
@@ -125,29 +132,88 @@ The username.
 
 #### `options`
 
-Type: `object`
-
-The search options.
-
 ```jsonc
 {
     "page": 1,
-    "category": "all", // all, anime, audio, literature, live-action, pictures, software, games
-    "filter": "no filter", // no filter, trusted only, no remakes
-    "sort": "date", // date, downloads, size, seeders, leechers, comments
-    "order": "desc", // desc, asc
-    "query": "One Piece" // The search query
+    "category": "all",
+    "filter": "no filter",
+    "sort": "date",
+    "order": "desc",
+    "query": "One Piece"
 }
 ```
 
-## TODO
+### `view(id)`
 
--   [x] Add support for sorting by various fields
--   [x] Add support for searching by category
--   [x] Add support for searching by user
--   [ ] Add pagination support - still partial support (only for html and normal query)
--   [ ] Add sukebei support
--   [ ] Write tests for apis - Added partial tests
+Get torrent details by ID.
+
+#### `id`
+
+Type: `number`
+
+The torrent ID.
+
+#### Returns
+
+```typescript
+interface TorrentDetail {
+    id: number;
+    title: string;
+    name: string;
+    category: string;
+    subCategory: string;
+    date: Date;
+    seeders: number;
+    leechers: number;
+    downloads: number;
+    completed: number;
+    magnet: string;
+    size: string;
+    hash: string;
+    submitter: string;
+    submitterId?: string;
+    information?: string;
+    description: string;
+    files: TorrentFile[];
+    comments: number;
+}
+
+interface TorrentFile {
+    name: string;
+    size: string;
+}
+```
+
+### `viewFromTorrent(torrent)`
+
+Get torrent details from a Torrent object.
+
+#### `torrent`
+
+Type: `Torrent`
+
+### `getCategories()`
+
+Get the list of categories.
+
+```typescript
+interface Category {
+    id: string;
+    name: string;
+    subCategories?: Category[];
+}
+```
+
+## RSS Mode
+
+```js
+const nyaa = new Nyaa({
+    baseUrl: 'https://nyaa.si',
+    mode: 'rss',
+});
+
+const result = await nyaa.search('One Piece');
+```
 
 ## License
 
@@ -159,4 +225,4 @@ This is an unofficial API for nyaa. I am not affiliated with nyaa in any way. Us
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome.

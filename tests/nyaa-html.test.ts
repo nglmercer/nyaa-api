@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import Nyaa from '../src';
+import { Nyaa } from '../src';
 import { SearchResult } from '../src/types';
 
 describe('Nyaa HTML parsing', () => {
@@ -88,8 +88,8 @@ describe('Nyaa HTML parsing', () => {
         });
 
         expect(result).toMatchObject<SearchResult>(result);
-        expect(result).toHaveProperty("data");
-        expect(result).toHaveProperty("page");
+        expect(result).toHaveProperty('data');
+        expect(result).toHaveProperty('page');
     });
 
     it('Nyaa search with query and filter "trusted only"', async () => {
@@ -98,8 +98,8 @@ describe('Nyaa HTML parsing', () => {
         });
 
         expect(result).toMatchObject<SearchResult>(result);
-        expect(result).toHaveProperty("data");
-        expect(result).toHaveProperty("page");
+        expect(result).toHaveProperty('data');
+        expect(result).toHaveProperty('page');
     });
 
     it('Nyaa search with query and filter "no remakes"', async () => {
