@@ -1,4 +1,5 @@
 import {
+    Category,
     NyaaOptions,
     SearchByUserOptions,
     SearchOptions,
@@ -8,6 +9,7 @@ import {
 } from '../types';
 import { parseSearchResults, parseSearchResultsRss, parsePagination } from './search.scraper';
 import { parseViewPage } from './view.scraper';
+import { parseCategories } from './category.scraper';
 
 export class Nyaa {
     constructor(
@@ -100,9 +102,32 @@ export class Nyaa {
     }
 
     async view(id: number): Promise<TorrentDetail | null> {
-        const url = `${this.options.baseUrl}view/${id}`;
+        const baseUrl = this.options.baseUrl.replace(/\/$/, '');
+        const url = `${baseUrl}/view/${id}`;
         const res = await fetch(url).then(r => r.text());
         return parseViewPage(res, id);
+    }
+
+    async viewFromTorrent(torrent: Torrent): Promise<TorrentDetail | null> {
+        if (!torrent.viewUrl) {
+            if (torrent.id) {
+                return this.view(torrent.id);
+            }
+            return null;
+        }
+        const baseUrl = this.options.baseUrl.replace(/\/$/, '');
+        const fullUrl = torrent.viewUrl.startsWith('/') 
+            ? `${baseUrl}${torrent.viewUrl}` 
+            : torrent.viewUrl;
+        const res = await fetch(fullUrl).then(r => r.text());
+        return parseViewPage(res, torrent.id);
+    }
+
+    async getCategories(): Promise<Category[]> {
+        const baseUrl = this.options.baseUrl.replace(/\/$/, '');
+        const url = `${baseUrl}/`;
+        const res = await fetch(url).then(r => r.text());
+        return parseCategories(res);
     }
 
     private mapCategory(category: string | undefined): string {

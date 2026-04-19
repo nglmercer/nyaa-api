@@ -79,3 +79,9 @@ export interface NyaaOptions {
     baseUrl: string;
     mode: 'rss' | 'html';
 }
+
+export interface Category {
+    id: string;
+    name: string;
+    subCategories?: Category[];
+}

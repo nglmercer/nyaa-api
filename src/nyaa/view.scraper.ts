@@ -4,8 +4,11 @@ import { TorrentDetail, TorrentFile } from '../types';
 export const parseViewPage = (html: string, id: number): TorrentDetail | null => {
     const $ = cheerio.load(html);
 
-    const title = $('.panel-heading h3').text().trim();
+    const title = $('.panel h3').first().text().trim();
     if (!title) return null;
+
+    const titleParts = title.split('\n');
+    const cleanTitle = titleParts[0].trim();
 
     const getRowText = (label: string): string | null => {
         const row = $(`.panel-body .row`).filter((_, el) => $(el).text().includes(label));
@@ -51,7 +54,7 @@ export const parseViewPage = (html: string, id: number): TorrentDetail | null =>
     const magnet = $('a[href^="magnet:"]').attr('href') || '';
     const torrentUrl = $('a[href$=".torrent"]').attr('href') || '';
     const magnetUrl = $('a[href^="magnet?"]').attr('href') || '';
-    const downloadLink = magnetUrl || torrentUrl || '';
+    const downloadLink = magnet || (magnetUrl ? `magnet:?${magnetUrl.split('?')[1]}` : '') || torrentUrl || '';
 
     const description = $('#torrent-description').html() || '';
 
@@ -70,8 +73,8 @@ export const parseViewPage = (html: string, id: number): TorrentDetail | null =>
 
     return {
         id,
-        title,
-        name: title,
+        title: cleanTitle,
+        name: cleanTitle,
         category: categoryInfo.category,
         subCategory: categoryInfo.subCategory,
         date,
