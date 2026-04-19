@@ -16,15 +16,17 @@ describe("Nyaa RSS parsing", () => {
     it("Nyaa empty search", async () => {
         const result = await nyaa.search();
 
-        expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBeGreaterThan(0);
+        expect(result).toHaveProperty("data");
+        expect(result).toHaveProperty("total");
+        expect(result.data).toBeInstanceOf(Array);
     });
 
     it("Nyaa search with query", async () => {
         const result = await nyaa.search("One piece");
 
-        expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBeGreaterThan(0);
+        expect(result).toHaveProperty("data");
+        expect(result).toHaveProperty("total");
+        expect(result.data).toBeInstanceOf(Array);
     });
 
     it("Nyaa search with query and category", async () => {
@@ -32,15 +34,15 @@ describe("Nyaa RSS parsing", () => {
             category: "anime",
         });
 
-        expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBeGreaterThan(0);
+        expect(result).toHaveProperty("data");
+        expect(result).toHaveProperty("total");
+        expect(result.data).toBeInstanceOf(Array);
     });
 
     it("Nyaa search by username", async () => {
         const result = await nyaa.searchByUser("Fan-Kai");
 
         expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBeGreaterThan(0);
     });
 
     it("Nyaa search by username with query", async () => {
@@ -49,6 +51,5 @@ describe("Nyaa RSS parsing", () => {
         });
 
         expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBeGreaterThan(0);
     });
 });

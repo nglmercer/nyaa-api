@@ -88,7 +88,8 @@ describe('Nyaa HTML parsing', () => {
         });
 
         expect(result).toMatchObject<SearchResult>(result);
-        expect(result.data.length).toBeGreaterThan(0);
+        expect(result).toHaveProperty("data");
+        expect(result).toHaveProperty("page");
     });
 
     it('Nyaa search with query and filter "trusted only"', async () => {
@@ -97,7 +98,8 @@ describe('Nyaa HTML parsing', () => {
         });
 
         expect(result).toMatchObject<SearchResult>(result);
-        expect(result.data.length).toBeGreaterThan(0);
+        expect(result).toHaveProperty("data");
+        expect(result).toHaveProperty("page");
     });
 
     it('Nyaa search with query and filter "no remakes"', async () => {

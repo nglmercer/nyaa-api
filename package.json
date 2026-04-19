@@ -16,11 +16,10 @@
         }
     },
     "scripts": {
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-        "prepublishOnly": "pnpm build",
-        "test": "vitest",
-        "coverage": "vitest run --coverage",
+        "build": "tsc",
+        "prepublishOnly": "bun run build",
+        "test": "bun test",
+        "coverage": "bun test --coverage",
         "lint": "tsc --noEmit"
     },
     "repository": {
@@ -42,7 +41,6 @@
     "homepage": "https://github.com/sayeed205/nyaa-api#readme",
     "devDependencies": {
         "@types/node": "^20.14.0",
-        "@vitest/coverage-v8": "^1.6.0",
         "happy-dom": "^14.12.0",
         "typescript": "^5.5.0",
         "vite": "^5.4.0",

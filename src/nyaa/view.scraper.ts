@@ -33,8 +33,8 @@ export const parseViewPage = (html: string, id: number): TorrentDetail | null =>
 
     const categoryInfo = parseCategory();
 
-    const dateStr = getRowText('Date:');
-    const date = dateStr ? new Date($('[data-timestamp]').attr('data-timestamp')! * 1000) : new Date();
+    const tsAttr = $('[data-timestamp]').attr('data-timestamp');
+    const date = tsAttr ? new Date(parseInt(tsAttr) * 1000) : new Date();
 
     const submitter = getRowText('Submitter:');
     const submitterLink = $('a.text-default');
@@ -77,6 +77,7 @@ export const parseViewPage = (html: string, id: number): TorrentDetail | null =>
         date,
         seeders,
         leechers,
+        downloads: completed || 0,
         completed,
         magnet: downloadLink || magnet,
         size: fileSize,

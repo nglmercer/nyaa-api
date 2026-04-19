@@ -1,8 +1,8 @@
 import * as cheerio from 'cheerio';
 import { Torrent } from '../types';
 
-export const parseTorrentRow = ($: cheerio.CheerioAPI, elem: cheerio.Element): Torrent | null => {
-    const $row = $(elem);
+export const parseTorrentRow = ($: cheerio.CheerioAPI, elem: unknown): Torrent | null => {
+    const $row = $(elem as Parameters<typeof $>[0]);
 
     const idLink = $row.find('td:nth-child(2) > a').attr('href');
     const id = idLink?.replace('/view/', '');
