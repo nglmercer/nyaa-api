@@ -15,16 +15,7 @@ async function main() {
         order: 'desc',
     });
 
-    console.log(`Found ${result.total} torrents (page ${result.page}/${result.totalPage})`);
-    console.log(`Time taken: ${result.timeTaken}ms\n`);
-
-    for (const torrent of result.data.slice(0, 3)) {
-        console.log(`- ${torrent.name}`);
-        console.log(`  Size: ${torrent.size} | Seeders: ${torrent.seeders} | Leechers: ${torrent.leechers}`);
-        console.log(`  View URL: https://nyaa.si${torrent.viewUrl}`);
-        console.log(`  Torrent URL: https://nyaa.si${torrent.torrentUrl}`);
-        console.log(`  Comments: ${torrent.comments}\n`);
-    }
+    console.log('result', result);
 
     console.log('Search by user:');
     const userResult = await nyaa.searchByUser('Fan-Kai', {
@@ -32,10 +23,7 @@ async function main() {
         category: 'anime',
     });
 
-    console.log(`Found ${userResult.length} torrents from Fan-Kai`);
-    if (userResult.length > 0) {
-        console.log(`First result: ${userResult[0].name}`);
-    }
+    console.log(`userResult`, userResult);
 
     console.log('\nUsing RSS mode:');
     const rssNyaa = new Nyaa({
@@ -44,7 +32,7 @@ async function main() {
     });
 
     const rssResult = await rssNyaa.search('Anime');
-    console.log(`RSS mode returned ${rssResult.data.length} torrents`);
+    console.log(`rssResult`, rssResult);
 }
 
 main();
