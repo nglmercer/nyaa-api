@@ -17,14 +17,14 @@ describe('Nyaa HTML parsing', () => {
     it('Nyaa empty search', async () => {
         const result = await nyaa.search();
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
     it('Nyaa search with query', async () => {
         const result = await nyaa.search('One piece');
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -33,7 +33,7 @@ describe('Nyaa HTML parsing', () => {
             category: 'anime',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -42,7 +42,7 @@ describe('Nyaa HTML parsing', () => {
             category: 'audio',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -51,7 +51,7 @@ describe('Nyaa HTML parsing', () => {
             category: 'literature',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -60,7 +60,7 @@ describe('Nyaa HTML parsing', () => {
             category: 'live-action',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -69,7 +69,7 @@ describe('Nyaa HTML parsing', () => {
             category: 'pictures',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -78,7 +78,7 @@ describe('Nyaa HTML parsing', () => {
             category: 'software',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -87,7 +87,7 @@ describe('Nyaa HTML parsing', () => {
             category: 'games',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result).toHaveProperty('data');
         expect(result).toHaveProperty('page');
     });
@@ -97,7 +97,7 @@ describe('Nyaa HTML parsing', () => {
             filter: 'trusted only',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result).toHaveProperty('data');
         expect(result).toHaveProperty('page');
     });
@@ -107,7 +107,7 @@ describe('Nyaa HTML parsing', () => {
             filter: 'no remakes',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -132,7 +132,7 @@ describe('Nyaa HTML parsing', () => {
             sort: 'comments',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -141,7 +141,7 @@ describe('Nyaa HTML parsing', () => {
             sort: 'size',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -150,7 +150,7 @@ describe('Nyaa HTML parsing', () => {
             sort: 'date',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -159,7 +159,7 @@ describe('Nyaa HTML parsing', () => {
             sort: 'seeders',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -168,7 +168,7 @@ describe('Nyaa HTML parsing', () => {
             sort: 'leechers',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -177,7 +177,7 @@ describe('Nyaa HTML parsing', () => {
             sort: 'downloads',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -186,7 +186,7 @@ describe('Nyaa HTML parsing', () => {
             order: 'asc',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -195,7 +195,7 @@ describe('Nyaa HTML parsing', () => {
             order: 'desc',
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 
@@ -204,7 +204,7 @@ describe('Nyaa HTML parsing', () => {
             page: 2,
         });
 
-        expect(result).toMatchObject<SearchResult>(result);
+        expect(result).toMatchObject(result);
         expect(result.data.length).toBeGreaterThan(0);
     });
 });
