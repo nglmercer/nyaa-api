@@ -1,5 +1,5 @@
 {
-    "name": "nyaa-api",
+    "name": "nyaa-sia",
     "version": "3.0.0",
     "description": "Unofficial API wrapper for nyaa.si",
     "type": "module",
@@ -24,7 +24,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/nglmercer/nyaa-api.git"
+        "url": "git+https://github.com/nglmercer/nyaa-sia.git"
     },
     "keywords": [
         "nyaa",
@@ -36,9 +36,9 @@
     "author": "nglmercer",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/nglmercer/nyaa-api/issues"
+        "url": "https://github.com/nglmercer/nyaa-sia/issues"
     },
-    "homepage": "https://github.com/nglmercer/nyaa-api#readme",
+    "homepage": "https://github.com/nglmercer/nyaa-sia#readme",
     "devDependencies": {
         "@types/node": "^20.14.0",
         "happy-dom": "^14.12.0",

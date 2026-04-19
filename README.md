@@ -1,28 +1,28 @@
-<h1 align="center">nyaa-api</h1>
+<h1 align="center">nyaa-sia</h1>
 
 This is an unofficial API for nyaa - https://nyaa.si or https://nyaa.land or whatever domain you want to use. This allows you to search for torrents by name, category, or even user. Use at your own risk.
 
 <div align="center">
 
-[![npm](https://img.shields.io/npm/v/nyaa-api?style=flat-square)](https://www.npmjs.com/package/nyaa-api)
-[![npm](https://img.shields.io/npm/dt/nyaa-api?style=flat-square)](https://www.npmjs.com/package/nyaa-api)
-![NPM](https://img.shields.io/npm/l/nyaa-api)
+[![npm](https://img.shields.io/npm/v/nyaa-sia?style=flat-square)](https://www.npmjs.com/package/nyaa-sia)
+[![npm](https://img.shields.io/npm/dt/nyaa-sia?style=flat-square)](https://www.npmjs.com/package/nyaa-sia)
+![NPM](https://img.shields.io/npm/l/nyaa-sia)
 
 </div>
 
 ## Install
 
 ```bash
-npm install --save nyaa-api
-yarn add nyaa-api
-pnpm add nyaa-api
-bun add nyaa-api
+npm install --save nyaa-sia
+yarn add nyaa-sia
+pnpm add nyaa-sia
+bun add nyaa-sia
 ```
 
 ## Usage
 
 ```js
-import { Nyaa } from 'nyaa-api';
+import { Nyaa } from 'nyaa-sia';
 
 const nyaa = new Nyaa({
     baseUrl: 'https://nyaa.si',
