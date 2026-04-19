@@ -15,6 +15,9 @@ export interface Torrent {
     information?: string;
     completed?: number;
     description?: string;
+    torrentUrl?: string;
+    viewUrl?: string;
+    comments?: number;
 }
 
 export interface TorrentFile {

@@ -20,8 +20,13 @@ export const parseTorrentRow = ($: cheerio.CheerioAPI, elem: unknown): Torrent |
     const leechers = parseInt($row.find('td:nth-child(7)').text().trim()) || 0;
     const downloads = parseInt($row.find('td:nth-child(8)').text().trim()) || 0;
 
+    const commentsLink = $row.find('td:nth-child(2) > a.comments').attr('title');
+    const commentsMatch = commentsLink?.match(/(\d+)\s*comment/);
+    const commentsCount = commentsMatch ? parseInt(commentsMatch[1]) : 0;
+    const viewId = idLink?.replace('/view/', '').replace('#comments', '');
+
     return {
-        id: parseInt(id),
+        id: parseInt(viewId || id),
         name,
         magnet,
         size,
@@ -30,6 +35,9 @@ export const parseTorrentRow = ($: cheerio.CheerioAPI, elem: unknown): Torrent |
         seeders,
         leechers,
         downloads,
+        viewUrl: `/view/${viewId}`,
+        torrentUrl: `/download/${viewId}.torrent`,
+        comments: commentsCount,
     };
 };
 

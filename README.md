@@ -16,53 +16,41 @@ This is an unofficial API for nyaa - https://nyaa.si or https://nyaa.land or wha
 npm install --save nyaa-si
 yarn add nyaa-si
 pnpm add nyaa-si
+bun add nyaa-si
 ```
 
 ## Usage
 
 ```js
-const Nyaa = require('nyaa-si'); // or import Nyaa from 'nyaa-si'
+import Nyaa from 'nyaa-si';
 
-const options = {
-    baseUrl: 'https://nyaa.si', // or https://nyaa.land or whatever domain you want to use
-    mode: 'html', // or "rss"
-}; // this is optional
+const nyaa = new Nyaa({
+    baseUrl: 'https://nyaa.si',
+    mode: 'html',
+});
 
-const nyaa = new Nyaa(options);
-
-const queryOptions = {
+const result = await nyaa.search('One Piece', {
     page: 1,
-    category: 'all', // all, anime, audio, literature, live-action, pictures, software, games
-    filter: 'no filter', // no filter, trusted only, no remakes
-    sort: 'date', // date, downloads, size, seeders, leechers, comments
-    order: 'desc', // desc, asc
-};
+    category: 'anime',
+    filter: 'no filter',
+    sort: 'date',
+    order: 'desc',
+});
 
-// Search for torrents
-const result = await nyaa.search('One Piece', queryOptions);
+console.log(result.data);
+
+// Or run the example:
+// bun run example.ts
 /**
  * {
- *      data:[
- *          {
- *          id: 000000,
- *          name: 'One Piece by Oda',
- *          date: 2023-08-13T04:20:50.000Z,
- *          seeders: 69,
- *          leechers: 69420,
- *          downloads: 6969,
- *          magnet: 'magnet:?xt=urn:btih:a5fe...',
- *          size: '507.6 MiB',
- *          category: 'Anime - English-translated',
- *          }, ...
- *     ],
+ *     data: [{ id: 1234567, name: 'One Piece', ... }],
  *     total: 100,
  *     page: 1,
  *     totalPage: 10,
- *     perPage: 75
- *     totalPage: 2,
- *     range: 1-75
+ *     perPage: 75,
+ *     range: '1-75',
  *     nextPage: true,
- *     timeTaken: 0.69
+ *     timeTaken: 150
  * }
  */
 ```
@@ -92,6 +80,36 @@ The search options.
     "filter": "no filter", // no filter, trusted only, no remakes
     "sort": "date", // date, downloads, size, seeders, leechers, comments
     "order": "desc" // desc, asc
+}
+```
+
+#### Returns
+
+```typescript
+interface SearchResult {
+    data: Torrent[];
+    total: number | null;
+    page: number;
+    totalPage: number | null;
+    perPage: number;
+    nextPage: boolean;
+    range: string | null;
+    timeTaken: number;
+}
+
+interface Torrent {
+    id: number;
+    name: string;
+    magnet: string;
+    size: string;
+    category: string;
+    date: Date;
+    seeders: number;
+    leechers: number;
+    downloads: number;
+    viewUrl: string;
+    torrentUrl: string;
+    comments: number;
 }
 ```
 
