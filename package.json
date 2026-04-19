@@ -1,20 +1,27 @@
 {
     "name": "nyaa-si",
-    "version": "2.2.0",
-    "description": "unofficial api wrapper for nyaa.si ",
+    "version": "3.0.0",
+    "description": "Unofficial API wrapper for nyaa.si",
+    "type": "module",
     "main": "dist/index.js",
-    "module": "dist/index.mjs",
+    "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
         "dist"
     ],
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
     "scripts": {
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "prepublish": "pnpm build",
+        "prepublishOnly": "pnpm build",
         "test": "vitest",
         "coverage": "vitest run --coverage",
-        "local": "ts-node test.ts"
+        "lint": "tsc --noEmit"
     },
     "repository": {
         "type": "git",
@@ -34,19 +41,15 @@
     },
     "homepage": "https://github.com/sayeed205/nyaa-api#readme",
     "devDependencies": {
-        "@rollup/plugin-typescript": "11.1.6",
-        "@types/node": "20.11.7",
-        "@vitest/coverage-v8": "^1.2.2",
-        "rimraf": "5.0.5",
-        "rollup-plugin-typescript-paths": "1.5.0",
-        "ts-node": "^10.9.2",
-        "tslib": "2.6.2",
-        "typescript": "^5.3.3",
-        "vite": "^5.0.12",
-        "vite-plugin-dts": "3.7.2",
-        "vitest": "1.2.2"
+        "@types/node": "^20.14.0",
+        "@vitest/coverage-v8": "^1.6.0",
+        "happy-dom": "^14.12.0",
+        "typescript": "^5.5.0",
+        "vite": "^5.4.0",
+        "vite-plugin-dts": "^4.0.0",
+        "vitest": "^1.6.0"
     },
     "dependencies": {
-        "cheerio": "1.0.0-rc.12"
+        "cheerio": "^1.0.0-rc.12"
     }
 }

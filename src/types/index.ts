@@ -1,101 +1,59 @@
 export interface Torrent {
-    /**
-     * Torrent ID (Nyaa)
-     */
     id: number;
-
-    /**
-     * Torrent name
-     */
     name: string;
-
-    /**
-     * Torrent magnet link
-     */
     magnet: string;
-
-    /**
-     * Torrent size (ex: 507.6 MiB)
-     */
     size: string;
-
-    /**
-     * Torrent category (ex: Anime - English-translated)
-     */
     category: string;
-
-    /**
-     * Torrent publish date
-     */
+    subCategory?: string;
     date: Date;
-
-    /**
-     * Torrent seeders count
-     */
     seeders: number;
-
-    /**
-     * Torrent leechers count
-     */
     leechers: number;
-
-    /**
-     * Torrent download count
-     */
     downloads: number;
+    hash?: string;
+    submitter?: string;
+    submitterId?: string;
+    information?: string;
+    completed?: number;
+    description?: string;
+}
+
+export interface TorrentFile {
+    name: string;
+    size: string;
+}
+
+export interface TorrentDetail extends Omit<Torrent, 'category'> {
+    title: string;
+    category: string;
+    subCategory: string;
+    files: TorrentFile[];
+    description: string;
+    information?: string;
+    comments: number;
 }
 
 export interface SearchResult {
-    /**
-     * Array of torrents
-     */
     data: Torrent[];
-
-    /**
-     * Total number of torrents, if null then query is invalid or not provided
-     */
     total: number | null;
-
-    /**
-     * Current page number
-     */
     page: number;
-
-    /**
-     * Total number of pages, if null then query is invalid or not provided
-     */
     totalPage: number | null;
-
-    /**
-     * Number of torrents per page
-     */
     perPage: number;
-
-    /**
-     * Is there a next page
-     */
     nextPage: boolean;
-
-    /**
-     * Search result range
-     */
     range: string | null;
-
-    /**
-     * Time taken to fetch the data
-     */
     timeTaken: number;
 }
 
-export interface SearchOptions {
-    /**
-     * Which page to fetch (default: 1)
-     */
-    page?: number;
+export interface PaginationInfo {
+    total: number | null;
+    totalPage: number | null;
+    page: number;
+    perPage: number;
+    range: string | null;
+    nextPage: boolean;
+}
 
-    /**
-     * Torrent category (default: all)
-     */
+export interface SearchOptions {
+    page?: number;
     category?:
         | 'all'
         | 'anime'
@@ -105,27 +63,8 @@ export interface SearchOptions {
         | 'pictures'
         | 'software'
         | 'games';
-
-    /**
-     * Filter torrents (default: no filter)
-     */
     filter?: 'no filter' | 'trusted only' | 'no remakes';
-
-    /**
-     * Sort torrents (default: "")
-     */
-    sort?:
-        | 'comments'
-        | 'size'
-        | 'date'
-        | 'seeders'
-        | 'leechers'
-        | 'downloads'
-        | '';
-
-    /**
-     * Sort order (default: "")
-     */
+    sort?: 'comments' | 'size' | 'date' | 'seeders' | 'leechers' | 'downloads' | '';
     order?: 'asc' | 'desc' | '';
 }
 
