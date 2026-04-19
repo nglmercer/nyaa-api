@@ -59,24 +59,33 @@ export const parseSearchResultsRss = (xml: string): Torrent[] => {
 
     $('item').each((_, elem) => {
         const el = $(elem);
-        const id = el.find('guid').text().replace(/.*\//, '');
+        const guid = el.find('guid').text().trim();
+        const id = guid.replace(/.*\//, '');
         const name = el.find('title').text().trim();
         const date = new Date(el.find('pubDate').text().trim());
         const hash = el.find('nyaa\\:infoHash').text().trim();
         const category = el.find('nyaa\\:category').text().trim();
+        const categoryId = el.find('nyaa\\:categoryId').text().trim();
         const size = el.find('nyaa\\:size').text().trim();
+        const link = el.find('link').text().trim();
 
         if (id) {
+            const torrentUrl = link || `/download/${id}.torrent`;
+            const viewUrl = guid.replace(/^https?:\/\/.*?\//, '/');
+
             torrents.push({
                 id: parseInt(id),
                 name,
                 date,
-                magnet: `magnet:?xt=urn:btih:${hash}&dn=${encodeURIComponent(name)}`,
-                category,
+                magnet: hash ? `magnet:?xt=urn:btih:${hash}&dn=${encodeURIComponent(name)}` : '',
+                category: categoryId ? `${category}` : category,
                 size,
                 seeders: parseInt(el.find('nyaa\\:seeders').text().trim()) || 0,
                 leechers: parseInt(el.find('nyaa\\:leechers').text().trim()) || 0,
                 downloads: parseInt(el.find('nyaa\\:downloads').text().trim()) || 0,
+                comments: parseInt(el.find('nyaa\\:comments').text().trim()) || 0,
+                viewUrl,
+                torrentUrl,
             });
         }
     });
