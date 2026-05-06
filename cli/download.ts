@@ -28,32 +28,11 @@ async function ensureDir(path: string): Promise<void> {
     }
 }
 
-async function loadScheduleFromCache(): Promise<AnimeSchedule[]> {
-    const cachePath = './schedule.json';
-    try {
-        const { readFile } = await import('fs/promises');
-        const content = await readFile(cachePath, 'utf-8');
-        return JSON.parse(content) as AnimeSchedule[];
-    } catch {
-        return [];
-    }
-}
-
-async function saveScheduleToCache(schedule: AnimeSchedule[]): Promise<void> {
-    const cachePath = './schedule.json';
-    try {
-        const { writeFile } = await import('fs/promises');
-        await writeFile(cachePath, JSON.stringify(schedule, null, 2));
-    } catch {
-        // Ignore save errors
-    }
-}
-
 export async function initSession(): Promise<void> {
     const { join } = await import('path');
     downloadPath = join(process.cwd(), 'downloads');
     await ensureDir(downloadPath);
-    
+
     session = await RqbitSession.create(downloadPath, {
         listenPort: 6881,
     });
@@ -80,10 +59,14 @@ export async function downloadTorrent(
     options: DownloadOptions = {},
 ): Promise<ActiveDownload | null> {
     const sess = await getSession();
-    
+
     let url = '';
-    
-    if (matched.downloadURL && (matched.downloadURL.startsWith('http') || matched.downloadURL.startsWith('magnet:'))) {
+
+    if (
+        matched.downloadURL &&
+        (matched.downloadURL.startsWith('http') ||
+            matched.downloadURL.startsWith('magnet:'))
+    ) {
         url = matched.downloadURL;
     } else if (matched.nyaaId > 0) {
         url = `https://nyaa.si/download/${matched.nyaaId}.torrent`;
@@ -91,13 +74,13 @@ export async function downloadTorrent(
         console.log(`  ❌ No valid URL for ${matched.animeTitle}`);
         return null;
     }
-    
+
     console.log(`  ⬇️  ${matched.animeTitle} (Ep${matched.episode})`);
     console.log(`     URL: ${url}`);
 
     try {
         let id: number;
-        
+
         if (url.startsWith('http')) {
             const response = await fetch(url);
             const buffer = await response.arrayBuffer();
@@ -130,15 +113,19 @@ export async function downloadTorrent(
     }
 }
 
-export async function getTorrentStats(id: number): Promise<TorrentStats | null> {
+export async function getTorrentStats(
+    id: number,
+): Promise<TorrentStats | null> {
     if (!session) return null;
     return session.getTorrentStats(id);
 }
 
-export async function updateDownloadStats(id: number): Promise<TorrentStats | null> {
+export async function updateDownloadStats(
+    id: number,
+): Promise<TorrentStats | null> {
     const download = downloads.get(id);
     if (!download) return null;
-    
+
     download.stats = await getTorrentStats(id);
     return download.stats;
 }
@@ -146,12 +133,12 @@ export async function updateDownloadStats(id: number): Promise<TorrentStats | nu
 export async function getAllDownloadStats(): Promise<ActiveDownload[]> {
     const sess = await getSession();
     const ids = sess.listTorrents();
-    
+
     for (const id of ids) {
         const stats = await updateDownloadStats(id);
         if (!stats) continue;
     }
-    
+
     return getActiveDownloads();
 }
 
@@ -165,9 +152,12 @@ export async function resumeDownload(id: number): Promise<boolean> {
     return session.startTorrent(id);
 }
 
-export async function deleteDownload(id: number, deleteFiles = false): Promise<boolean> {
+export async function deleteDownload(
+    id: number,
+    deleteFiles = false,
+): Promise<boolean> {
     if (!session) return false;
-    
+
     downloads.delete(id);
     return session.deleteTorrent(id, deleteFiles);
 }

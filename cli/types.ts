@@ -78,6 +78,23 @@ export interface SearchOptions {
     order?: string;
 }
 
+export interface User {
+    id: string;
+    name: string;
+    preferences: {
+        preferredQuality?: string;
+        preferredFansub?: string;
+        downloadPath?: string;
+        seasons?: string[];
+    };
+}
+
+export interface ConversationContext {
+    user: User;
+    history: Array<{ role: 'user' | 'assistant'; content: string }>;
+    lastIntent?: Record<string, unknown>;
+}
+
 export interface ActiveDownload {
     id: number;
     animeTitle: string;

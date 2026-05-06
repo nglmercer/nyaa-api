@@ -9,7 +9,10 @@ export async function searchTorrentForAnime(
     const episodeStr = episode !== null ? ` Episode ${episode}` : '';
     const searchQueries = [`${title}${episodeStr}`, title];
 
-    const nyaa = new Nyaa({ baseUrl: config.nyAAgent.nyAAgentUrl, mode: 'html' });
+    const nyaa = new Nyaa({
+        baseUrl: config.nyAAgent.nyAAgentUrl,
+        mode: 'html',
+    });
 
     for (const searchQuery of searchQueries) {
         try {
