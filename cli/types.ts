@@ -17,6 +17,8 @@ export interface AnimeSchedule {
     romajiTitle: string;
     format: string;
     episodes: number | null;
+    season?: string;
+    seasonYear?: number;
     nextEpisode: number | null;
     airingAt: number;
     coverImage: string;
