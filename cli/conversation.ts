@@ -74,25 +74,27 @@ export class ConversationalAgent {
     async chat(userMessage: string): Promise<string> {
         this.context.history.push({ role: 'user', content: userMessage });
 
-        const systemPrompt = `You are an anime download assistant for nyaa.si torrents.
-Parse user requests and return ONLY valid JSON:
+        const systemPrompt = `You are a multilingual anime download assistant for nyaa.si torrents.
+Parse user requests in ANY language and return ONLY valid JSON:
 {
-  "intent": "download" | "search" | "list" | "preferences",
-  "animes": ["anime title"],
+  "intent": "download" | "search" | "list" | "preferences" | "help",
+  "animes": ["exact anime title only"],
   "seasons": ["WINTER", "SPRING", "SUMMER", "FALL"],
   "year": 2024,
   "episodes": [1, 2, 3],
   "quality": "1080p",
-  "fansub": "subsgroup",
-  "maxResults": 10
+  "fansub": "subsgroup"
 }
 
-User: ${this.context.user.name}
-Preferences: ${JSON.stringify(this.context.user.preferences)}
+CRITICAL RULES:
+- "list today/today's anime/current anime" → intent:"list" (NOT search/download)
+- "download X" → animes:["X"] ONLY that anime, not related ones
+- "search X" → intent:"search" with animes:["X"]
+- Return ONLY the JSON object, no markdown or text
+- For non-English queries, understand the intent and respond in English JSON
 
-For season downloads, use AniList API search.
-For episode ranges like "100-200", generate full array [100,101,...,200].
-Return ONLY the JSON object, no markdown or extra text.`;
+User: ${this.context.user.name}
+Preferences: ${JSON.stringify(this.context.user.preferences)}`;
 
         if (!this.config.ai.apiKey) {
             return 'AI not configured. Set AI_API_KEY in .env file.';
@@ -171,10 +173,39 @@ Return ONLY the JSON object, no markdown or extra text.`;
         }
 
         const results: string[] = [];
-        const maxDownloads = 5; // Limit simultaneous downloads
+        const maxDownloads = 5;
+
+        // Direct anime name downloads (process these FIRST to prioritize user's specific request)
+        for (const animeName of animes) {
+            if (results.length >= maxDownloads) break;
+
+            // If specific episodes requested, download those; otherwise get latest episode
+            const epList = episodes.length > 0 ? episodes.slice(0, 3) : [null];
+
+            for (const ep of epList) {
+                if (results.length >= maxDownloads) break;
+
+                const searchQuery = quality
+                    ? `${animeName} ${quality}`
+                    : animeName;
+                const torrent = await searchTorrentForAnime(
+                    searchQuery,
+                    ep,
+                    this.config,
+                );
+
+                if (torrent) {
+                    await downloadTorrent(animeName, torrent);
+                    const epNum = ep || torrent.episode || '?';
+                    results.push(`✓ ${animeName} Ep${epNum} - ${torrent.nyaaTitle.slice(0, 50)}`);
+                } else {
+                    results.push(`✗ ${animeName} - Not found`);
+                }
+            }
+        }
 
         // If seasons specified, search AniList for anime in those seasons
-        if (seasons.length > 0 && year) {
+        if (seasons.length > 0 && year && results.length < maxDownloads) {
             for (const season of seasons) {
                 const mediaList = await searchAnimeBySeason(season, year);
                 for (const media of mediaList.slice(0, 3)) {
@@ -184,7 +215,7 @@ Return ONLY the JSON object, no markdown or extra text.`;
                         episodes.length > 0
                             ? episodes
                             : Array.from(
-                                  { length: Math.min(totalEps, 3) },
+                                  { length: Math.min(totalEps, 2) },
                                   (_, i) => i + 1,
                               );
 
@@ -207,34 +238,9 @@ Return ONLY the JSON object, no markdown or extra text.`;
             }
         }
 
-        // Direct anime name downloads
-        for (const animeName of animes) {
-            if (results.length >= maxDownloads) break;
-            const epList = episodes.length > 0 ? episodes.slice(0, 3) : [null];
-
-            for (const ep of epList) {
-                if (results.length >= maxDownloads) break;
-                const searchQuery = quality
-                    ? `${animeName} ${quality}`
-                    : animeName;
-                const torrent = await searchTorrentForAnime(
-                    searchQuery,
-                    ep,
-                    this.config,
-                );
-
-                if (torrent) {
-                    await downloadTorrent(animeName, torrent);
-                    results.push(`✓ ${animeName} Ep${ep || '?'}`);
-                } else {
-                    results.push(`✗ ${animeName} Ep${ep || '?'} - Not found`);
-                }
-            }
-        }
-
         return results.length > 0
-            ? `Download results:\n${results.join('\n')}\n\n(Note: Limited to ${maxDownloads} downloads per request)`
-            : 'No results found. Try different search terms or check if AI API is configured.';
+            ? `Download results:\n${results.join('\n')}`
+            : 'No results found. Try different search terms.';
     }
 
     private async handleSearch(
