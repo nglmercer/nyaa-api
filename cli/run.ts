@@ -4,6 +4,7 @@ import { config } from 'dotenv';
 import { Command } from 'commander';
 import AnimeNyAAgent from './agent.js';
 import * as download from './download.js';
+import * as auto from './auto.js';
 
 config();
 
@@ -44,6 +45,34 @@ program
             }
             
             console.log(`\n📊 Total: ${schedule.length} anime`);
+        }
+        
+        console.log(`\n⏱️  ${((Date.now() - startTime) / 1000).toFixed(2)}s`);
+    });
+
+program
+    .command('today')
+    .description("Today's airing anime")
+    .option('-j, --json', 'Output as JSON')
+    .action(async (options) => {
+        const startTime = Date.now();
+        
+        const todaysAnime = await auto.getTodaysAnime();
+        
+        if (options.json) {
+            console.log(JSON.stringify(todaysAnime, null, 2));
+        } else {
+            console.log(AnimeNyAAgent.getConfigSafe());
+            console.log(`\n📅 Today's anime: ${todaysAnime.length}\n`);
+            
+            for (const a of todaysAnime) {
+                const title = a.romajiTitle.slice(0, 20).padEnd(20);
+                const ep = (a.nextEpisode || '-').toString().padStart(4);
+                const time = a.airingAt > 0 
+                    ? new Date(a.airingAt * 1000).toLocaleTimeString() 
+                    : 'TBA';
+                console.log(`  ${title} | Ep${ep} | ${time}`);
+            }
         }
         
         console.log(`\n⏱️  ${((Date.now() - startTime) / 1000).toFixed(2)}s`);
@@ -152,7 +181,6 @@ program
         }
         
         console.log(`\n📊 Started: ${activeDownloads.length} downloads`);
-        console.log(`\n💾 Use "bun cli/run.ts downloads" to monitor`);
     });
 
 program
@@ -184,16 +212,15 @@ program
     });
 
 program
-    .command('daemon')
-    .description('Run scheduler daemon')
-    .option('-h, --hours <num>', 'Hours interval', '1')
+    .command('auto')
+    .description('Auto-download today\'s anime')
+    .option('-n, --number <num>', 'Max downloads per run', '10')
+    .option('-i, --interval <hours>', 'Hours between runs', '24')
     .action(async (options) => {
-        const agent = new AnimeNyAAgent();
-        
-        console.log(AnimeNyAAgent.getConfigSafe());
-        console.log(`\n⏰ Scheduler: every ${options.hours}h | Press Ctrl+C to stop\n`);
-        
-        agent.startScheduler(parseInt(options.hours));
+        await auto.runAutoDownload({
+            maxPerDay: parseInt(options.number),
+            intervalHours: parseInt(options.interval),
+        });
     });
 
 program.parse();

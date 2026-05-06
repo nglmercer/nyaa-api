@@ -28,6 +28,27 @@ async function ensureDir(path: string): Promise<void> {
     }
 }
 
+async function loadScheduleFromCache(): Promise<AnimeSchedule[]> {
+    const cachePath = './schedule.json';
+    try {
+        const { readFile } = await import('fs/promises');
+        const content = await readFile(cachePath, 'utf-8');
+        return JSON.parse(content) as AnimeSchedule[];
+    } catch {
+        return [];
+    }
+}
+
+async function saveScheduleToCache(schedule: AnimeSchedule[]): Promise<void> {
+    const cachePath = './schedule.json';
+    try {
+        const { writeFile } = await import('fs/promises');
+        await writeFile(cachePath, JSON.stringify(schedule, null, 2));
+    } catch {
+        // Ignore save errors
+    }
+}
+
 export async function initSession(): Promise<void> {
     const { join } = await import('path');
     downloadPath = join(process.cwd(), 'downloads');

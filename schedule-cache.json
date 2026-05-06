@@ -1,0 +1,94 @@
+{
+  "anime": [
+    {
+      "id": 2406,
+      "title": "サザエさん",
+      "englishTitle": null,
+      "romajiTitle": "Sazae-san",
+      "format": "TV",
+      "episodes": null,
+      "nextEpisode": 2831,
+      "airingAt": 1778405400,
+      "coverImage": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx2406-nP8NIct9Sci3.jpg"
+    },
+    {
+      "id": 966,
+      "title": "クレヨンしんちゃん",
+      "englishTitle": "Shin Chan",
+      "romajiTitle": "Crayon Shin-chan",
+      "format": "TV",
+      "episodes": null,
+      "nextEpisode": 1334,
+      "airingAt": 1778311800,
+      "coverImage": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b966-QUCdKAk4ls9J.jpg"
+    },
+    {
+      "id": 235,
+      "title": "名探偵コナン",
+      "englishTitle": "Case Closed",
+      "romajiTitle": "Meitantei Conan",
+      "format": "TV",
+      "episodes": null,
+      "nextEpisode": 1201,
+      "airingAt": 1778317200,
+      "coverImage": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx235-MyYT7K3chBdO.jpg"
+    },
+    {
+      "id": 21,
+      "title": "ONE PIECE",
+      "englishTitle": "ONE PIECE",
+      "romajiTitle": "ONE PIECE",
+      "format": "TV",
+      "episodes": null,
+      "nextEpisode": 1161,
+      "airingAt": 1778422560,
+      "coverImage": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx21-ELSYx3yMPcKM.jpg"
+    },
+    {
+      "id": 8687,
+      "title": "ドラえもん (2005)",
+      "englishTitle": null,
+      "romajiTitle": "Doraemon (2005)",
+      "format": "TV",
+      "episodes": null,
+      "nextEpisode": 914,
+      "airingAt": 1778313600,
+      "coverImage": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b8687-bBnJMGnih4PT.jpg"
+    },
+    {
+      "id": 8336,
+      "title": "はなかっぱ",
+      "englishTitle": null,
+      "romajiTitle": "Hanakappa",
+      "format": "TV_SHORT",
+      "episodes": null,
+      "nextEpisode": 655,
+      "airingAt": 1778191800,
+      "coverImage": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b8336-BJzIHFC49RWb.jpg"
+    },
+    {
+      "id": 118123,
+      "title": "ホロのぐらふぃてぃ",
+      "englishTitle": null,
+      "romajiTitle": "Holo no Graffiti",
+      "format": "ONA",
+      "episodes": null,
+      "nextEpisode": 365,
+      "airingAt": 1778403600,
+      "coverImage": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx118123-xqn5fYsjKXJU.png"
+    },
+    {
+      "id": 142274,
+      "title": "ニンジャラ",
+      "englishTitle": "Ninjala the Animation",
+      "romajiTitle": "Ninjala",
+      "format": "TV",
+      "episodes": null,
+      "nextEpisode": 215,
+      "airingAt": 1778279400,
+      "coverImage": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx142274-qPfkeKk4caKI.png"
+    }
+  ],
+  "lastUpdated": 1778089616,
+  "nextAirDate": 1778176016
+}
