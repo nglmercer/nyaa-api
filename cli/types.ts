@@ -75,3 +75,19 @@ export interface SearchOptions {
     sort?: string;
     order?: string;
 }
+
+export interface ActiveDownload {
+    id: number;
+    animeTitle: string;
+    matched: TorrentMatch;
+    stats: {
+        name: string;
+        finished: boolean;
+        totalBytes: number;
+        downloadedBytes: number;
+        uploadedBytes: number;
+        downloadSpeed: number;
+        uploadSpeed: number;
+    } | null;
+    started: number;
+}
